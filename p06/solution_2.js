@@ -1,5 +1,4 @@
 const fs = require('fs');
-const Stack = require('./stack');
 const filename = './input.txt';
 
 // split input into cranes and procedure
