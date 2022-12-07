@@ -5,8 +5,13 @@ const filename = './input.txt';
 // split input into cranes and procedure
 const lines = fs.readFileSync(filename, 'utf-8').split(/\r?\n/);
 
-let currentTarget = undefined;
-let tree = {};
+const tree = {
+    name: '/',
+    children: [],
+    files: [],
+    totalSize: 0
+}
+let currentTarget = tree;
 
 lines.forEach(line => {
     const lineType = line[0] === '$' ? 'command' : 'data';
@@ -22,22 +27,12 @@ function resolver(type, line) {
 }
 
 function commandResolver(line) {
-    switch(line) {
-        case '$ cd /': {
-            generateTree();
-            break;
-        }
-        case '$ cd ..': {
-            currentTarget = currentTarget.parent;
-        }
-        case '$ ls': {
-            break;
-        }
-        // cd to folder
-        default: { 
-            const targetName = line.split(' ')[2]
-            currentTarget = currentTarget.children.find( item => item.name === targetName);
-        }
+    if(line === '$ cd /' || line === '$ ls' ) return
+    if(line === '$ cd ..') {
+        currentTarget = currentTarget.parent;
+    } else {
+        const targetName = line.split(' ')[2]
+        currentTarget = currentTarget.children.find( item => item.name === targetName);
     }
 }
 
@@ -50,16 +45,6 @@ function dataResolver(line) {
     }
 }
 
-
-function generateTree() {
-    tree = {
-        name: '/',
-        children: [],
-        files: [],
-        totalSize: 0
-    }
-    currentTarget = tree;
-}
 
 function addChildren(name) {
     currentTarget.children.push({
