@@ -2,7 +2,6 @@ const { Resolver } = require('dns');
 const fs = require('fs');
 const filename = './input.txt';
 
-// split input into cranes and procedure
 const lines = fs.readFileSync(filename, 'utf-8').split(/\r?\n/);
 
 const tree = {
