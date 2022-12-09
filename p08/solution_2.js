@@ -1,4 +1,3 @@
-const { Resolver } = require('dns');
 const fs = require('fs');
 const filename = './input.txt';
 
